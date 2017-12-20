@@ -34,7 +34,7 @@ class TBRPCustomRepeatCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        resetSeparatorWithLeftX(TBRPHelper.leadingMargin())
+		resetSeparatorWithLeftX(leftX: TBRPHelper.leadingMargin())
     }
     
     // MARK: - Separator line
@@ -64,7 +64,7 @@ class TBRPCustomRepeatCell: UITableViewCell {
         let bottomSeparator = CALayer()
         bottomSeparator.name = TBRPBottomSeparatorIdentifier
         
-        bottomSeparator.frame = CGRectMake(leftX, bounds.size.height - TBRPSeparatorLineWidth, TBRPScreenWidth - leftX, TBRPSeparatorLineWidth)
+		bottomSeparator.frame = CGRect(x: leftX, y: bounds.size.height - TBRPSeparatorLineWidth, width: TBRPScreenWidth - leftX, height: TBRPSeparatorLineWidth)
         bottomSeparator.backgroundColor = TBRPHelper.separatorColor()
         
         layer.addSublayer(bottomSeparator)
@@ -80,31 +80,31 @@ class TBRPCustomRepeatCell: UITableViewCell {
         let topSeparator = CALayer()
         topSeparator.name = TBRPTopSeparatorIdentifier
         
-        topSeparator.frame = CGRectMake(leftX, 0,TBRPScreenWidth - leftX, TBRPSeparatorLineWidth)
+		topSeparator.frame = CGRect(x: leftX, y: 0, width: TBRPScreenWidth - leftX, height: TBRPSeparatorLineWidth)
         topSeparator.backgroundColor = TBRPHelper.separatorColor()
         
         layer.addSublayer(topSeparator)
     }
     
     func addDefaultBottomSeparator() {
-        addBottomSeparatorFromLeftX(TBRPHelper.leadingMargin())
+		addBottomSeparatorFromLeftX(leftX: TBRPHelper.leadingMargin())
     }
     
     func addSectionTopSeparator() {
-        addTopSeparatorFromLeftX(0)
+		addTopSeparatorFromLeftX(leftX: 0)
     }
     
     func addSectionBottomSeparator() {
-        addBottomSeparatorFromLeftX(0)
+		addBottomSeparatorFromLeftX(leftX: 0)
     }
     
     func updateBottomSeparatorWithLeftX(leftX: CGFloat) {
         removeBottomSeparators()
-        addBottomSeparatorFromLeftX(leftX)
+		addBottomSeparatorFromLeftX(leftX: leftX)
     }
     
     func resetSeparatorWithLeftX(leftX: CGFloat) {
         removeAllSeparators()
-        addBottomSeparatorFromLeftX(leftX)
+		addBottomSeparatorFromLeftX(leftX: leftX)
     }
 }

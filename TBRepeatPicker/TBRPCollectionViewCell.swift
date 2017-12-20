@@ -66,19 +66,19 @@ class TBRPCollectionViewCell: UITableViewCell, UICollectionViewDataSource, UICol
         let layout = TBRPCollectionViewLayout(mode: mode)
         
         if mode == .Days {
-            collectionView = UICollectionView(frame: CGRectMake(0, 0, TBRPScreenWidth, TBRPDaysCollectionHeight), collectionViewLayout: layout)
+			collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: TBRPScreenWidth, height: TBRPDaysCollectionHeight), collectionViewLayout: layout)
         } else {
-            collectionView = UICollectionView(frame: CGRectMake(0, 0, TBRPScreenWidth, TBRPMonthsCollectionHeight), collectionViewLayout: layout)
+			collectionView = UICollectionView(frame: CGRect(x: 0, y: 0, width: TBRPScreenWidth, height: TBRPMonthsCollectionHeight), collectionViewLayout: layout)
         }
         
         if let _ = collectionView {
             collectionView?.dataSource = self
             collectionView?.delegate = self
-            collectionView?.registerClass(TBRPCollectionItem.self, forCellWithReuseIdentifier: TBRPCollectionItemID)
-            collectionView?.backgroundColor = UIColor.clearColor()
+			collectionView?.register(TBRPCollectionItem.self, forCellWithReuseIdentifier: TBRPCollectionItemID)
+			collectionView?.backgroundColor = UIColor.clear
             contentView.addSubview(collectionView!)
         }
-        backgroundColor = UIColor.clearColor()
+		backgroundColor = UIColor.clear
     }
     
     // MARK: - Separator line
@@ -94,7 +94,7 @@ class TBRPCollectionViewCell: UITableViewCell, UICollectionViewDataSource, UICol
         let bottomSeparator = CALayer()
         bottomSeparator.name = TBRPBottomSeparatorIdentifier
         
-        bottomSeparator.frame = CGRectMake(leftX, TBRPMonthsCollectionHeight - TBRPSeparatorLineWidth, TBRPScreenWidth - leftX, TBRPSeparatorLineWidth)
+		bottomSeparator.frame = CGRect(x: leftX, y: TBRPMonthsCollectionHeight - TBRPSeparatorLineWidth, width: TBRPScreenWidth - leftX, height: TBRPSeparatorLineWidth)
         bottomSeparator.backgroundColor = TBRPHelper.separatorColor()
         
         layer.addSublayer(bottomSeparator)
@@ -104,18 +104,18 @@ class TBRPCollectionViewCell: UITableViewCell, UICollectionViewDataSource, UICol
         let topSeparator = CALayer()
         topSeparator.name = TBRPTopSeparatorIdentifier
         
-        topSeparator.frame = CGRectMake(leftX, 0,TBRPScreenWidth - leftX, TBRPSeparatorLineWidth)
+		topSeparator.frame = CGRect(x: leftX, y: 0, width: TBRPScreenWidth - leftX, height: TBRPSeparatorLineWidth)
         topSeparator.backgroundColor = TBRPHelper.separatorColor()
         
         layer.addSublayer(topSeparator)
     }
     
     func addSectionTopSeparator() {
-        addTopSeparatorFromLeftX(0)
+		addTopSeparatorFromLeftX(leftX: 0)
     }
     
     func addSectionBottomSeparator() {
-        addBottomSeparatorFromLeftX(0)
+		addBottomSeparatorFromLeftX(leftX: 0)
     }
     
     // MARK: - UICollectionView data source
@@ -123,7 +123,7 @@ class TBRPCollectionViewCell: UITableViewCell, UICollectionViewDataSource, UICol
         return 1
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if mode == .Days {
             return 31
         } else {
@@ -131,23 +131,23 @@ class TBRPCollectionViewCell: UITableViewCell, UICollectionViewDataSource, UICol
         }
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(TBRPCollectionItemID, forIndexPath: indexPath) as! TBRPCollectionItem
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TBRPCollectionItemID, for: indexPath as IndexPath) as! TBRPCollectionItem
         cell.tintColor = tintColor
         
         if mode == .Days {
             let day = indexPath.row + 1
             
             cell.textLabel!.text = "\(day)"
-            cell.setItemSelected(selectedMonthdays.contains(day))
+			cell.setItemSelected(selected: selectedMonthdays.contains(day))
         } else {
             let month = indexPath.row + 1
             
-            cell.textLabel!.text = TBRPHelper.yearMonths(language)[indexPath.row]
-            cell.setItemSelected(selectedMonths.contains(month))
+			cell.textLabel!.text = TBRPHelper.yearMonths(language: language)[indexPath.row]
+			cell.setItemSelected(selected: selectedMonths.contains(month))
         }
         
-        configureSeparatorLine(cell, indexPath: indexPath)
+		configureSeparatorLine(cell: cell, indexPath: indexPath as NSIndexPath)
         
         return cell
     }
@@ -175,8 +175,8 @@ class TBRPCollectionViewCell: UITableViewCell, UICollectionViewDataSource, UICol
     }
     
     // MARK: - UICollectionView delegate
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! TBRPCollectionItem
+	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+		let cell = collectionView.cellForItem(at: indexPath as IndexPath) as! TBRPCollectionItem
         
         if mode == .Days {
             let day = indexPath.row + 1
@@ -184,17 +184,17 @@ class TBRPCollectionViewCell: UITableViewCell, UICollectionViewDataSource, UICol
                 return
             }
             
-            cell.setItemSelected(!selectedMonthdays.contains(day))
+			cell.setItemSelected(selected: !selectedMonthdays.contains(day))
             
             if selectedMonthdays.contains(day) == true {
-                selectedMonthdays.removeObject(day)
+				selectedMonthdays.removeObject(object: day)
             } else {
                 selectedMonthdays.append(day)
             }
-            cell.backgroundColor = UIColor.whiteColor()
+			cell.backgroundColor = UIColor.white
             
             if let _ = delegate {
-                delegate?.selectedMonthdaysDidChanged(selectedMonthdays)
+				delegate?.selectedMonthdaysDidChanged(days: selectedMonthdays)
             }
         } else if mode == .Months {
             let month = indexPath.row + 1
@@ -202,16 +202,16 @@ class TBRPCollectionViewCell: UITableViewCell, UICollectionViewDataSource, UICol
                 return
             }
             
-            cell.setItemSelected(!selectedMonths.contains(month))
+			cell.setItemSelected(selected: !selectedMonths.contains(month))
             
             if selectedMonths.contains(month) == true {
-                selectedMonths.removeObject(month)
+				selectedMonths.removeObject(object: month)
             } else {
                 selectedMonths.append(month)
             }
             
             if let _ = delegate {
-                delegate?.selectedMonthsDidChanged(selectedMonths)
+				delegate?.selectedMonthsDidChanged(months: selectedMonths)
             }
         }
     }

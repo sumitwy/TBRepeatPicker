@@ -25,24 +25,24 @@ class DemoViewController: UIViewController, TBRepeatPickerDelegate, SwitchLangua
 //        dateFormatter.dateFormat = "yyyy-MM-dd"
 //        occurrenceDate = dateFormatter.dateFromString("2015-09-14")! // 2015-09-14 Monday
         
-        resultTextView.userInteractionEnabled = false
+		resultTextView.isUserInteractionEnabled = false
         updateLanguageTitle()
         updateResultTextView()
     }
     
     private func updateLanguageTitle() {
-        let languageIndex = languages.indexOf(language)
+		let languageIndex = languages.index(of: language)
         let languageTitle = languageStrings[languageIndex!]
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: languageTitle, style: .Plain, target: self, action: "switchLanguage")
+		navigationItem.rightBarButtonItem = UIBarButtonItem(title: languageTitle, style: .plain, target: self, action: #selector(DemoViewController.switchLanguage))
     }
     
-    func switchLanguage() {
-        let switchLanguageViewController = SwitchLanguageViewController.init(style: .Grouped)
+    @objc func switchLanguage() {
+		let switchLanguageViewController = SwitchLanguageViewController.init(style: .grouped)
         let navigationViewController = UINavigationController(rootViewController: switchLanguageViewController)
         switchLanguageViewController.language = language
         switchLanguageViewController.delegate = self
         
-        presentViewController(navigationViewController, animated: true, completion: nil)
+		present(navigationViewController, animated: true, completion: nil)
     }
     
     func donePickingLanguage(language: TBRPLanguage) {
@@ -51,8 +51,8 @@ class DemoViewController: UIViewController, TBRepeatPickerDelegate, SwitchLangua
         updateResultTextView()
     }
     
-    @IBAction func startPicking(sender: UIButton) {
-        let repeatPicker = TBRepeatPicker.initPicker(occurrenceDate, language: language, tintColor: tbBlueColor())
+    @IBAction func startPicking(_ sender: UIButton) {
+		let repeatPicker = TBRepeatPicker.initPicker(occurrenceDate: occurrenceDate, language: language, tintColor: tbBlueColor())
         repeatPicker.delegate = self
         
 //        recurrence = nil
@@ -100,7 +100,7 @@ class DemoViewController: UIViewController, TBRepeatPickerDelegate, SwitchLangua
     
     private func updateResultTextView() {
         if let _ = recurrence {
-            resultTextView.text = TBRPHelper.recurrenceString(recurrence!, occurrenceDate: occurrenceDate, language: language)
+			resultTextView.text = TBRPHelper.recurrenceString(recurrence: recurrence!, occurrenceDate: occurrenceDate, language: language)
         } else {
             resultTextView.text = "Never Repeat"
         }

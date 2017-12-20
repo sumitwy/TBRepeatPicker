@@ -45,7 +45,7 @@ class TBRepeatPicker: TBRPPresetRepeatController  {
     - Returns: An initialized repeat picker object.
     */
     class func initPicker(occurrenceDate: NSDate, language: TBRPLanguage, tintColor: UIColor) -> TBRepeatPicker {
-        let repeatPicker = TBRepeatPicker.init(style: .Grouped)
+		let repeatPicker = TBRepeatPicker.init(style: .grouped)
         
         repeatPicker.occurrenceDate = occurrenceDate
         repeatPicker.language = language

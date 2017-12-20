@@ -29,7 +29,7 @@ class TBRPSwitchCell: TBRPCustomRepeatCell {
         weekSwitch = UISwitch()
         weekSwitch?.frame.origin.x = TBRPScreenWidth - (weekSwitch?.bounds.size.width)! - SwitchTrailingSpace
         weekSwitch?.frame.origin.y = contentView.bounds.size.height / 2 - (weekSwitch?.bounds.size.height)! / 2
-        weekSwitch?.addTarget(self, action: "switchAction:", forControlEvents: .ValueChanged)
+		weekSwitch?.addTarget(self, action: Selector(("switchAction:")), for: .valueChanged)
         contentView.addSubview(weekSwitch!)
     }
 
@@ -39,7 +39,7 @@ class TBRPSwitchCell: TBRPCustomRepeatCell {
     
     func switchAction(sender: AnyObject) {
         if let _ = delegate {
-            delegate?.didSwitch(sender)
+			delegate?.didSwitch(sender: sender)
         }
     }
 

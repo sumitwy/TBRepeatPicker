@@ -10,6 +10,6 @@ import Foundation
 
 extension String {
     mutating func removeSubstring(substring: String) {
-        self = self.stringByReplacingOccurrencesOfString(substring, withString: "", options: NSStringCompareOptions.LiteralSearch, range: nil)
+		self = self.replacingOccurrences(of: substring, with: "", options: NSString.CompareOptions.literal, range: nil)
     }
 }

@@ -16,19 +16,19 @@ class TBRPCollectionViewLayout: UICollectionViewFlowLayout {
         
         self.mode = mode
         if mode == .Days {
-            itemSize = CGSizeMake(TBRPDaysItemWidth, TBRPDaysItemHeight)
+			itemSize = CGSize(width: TBRPDaysItemWidth, height: TBRPDaysItemHeight)
         } else {
-            itemSize = CGSizeMake(TBRPMonthsItemWidth, TBRPMonthsItemHeight)
+			itemSize = CGSize(width: TBRPMonthsItemWidth, height: TBRPMonthsItemHeight)
         }
         minimumInteritemSpacing = 0
         minimumLineSpacing = 0
     }
 
-    override func collectionViewContentSize() -> CGSize {
+	override var collectionViewContentSize: CGSize {
         if mode == .Days {
-            return CGSizeMake(TBRPScreenWidth, TBRPDaysCollectionHeight)
+			return CGSize(width: TBRPScreenWidth, height: TBRPDaysCollectionHeight)
         } else {
-            return CGSizeMake(TBRPScreenWidth, TBRPMonthsCollectionHeight)
+			return CGSize(width: TBRPScreenWidth, height: TBRPMonthsCollectionHeight)
         }
     }
     

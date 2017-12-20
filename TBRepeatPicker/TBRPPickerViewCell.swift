@@ -72,7 +72,7 @@ class TBRPPickerViewCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewD
     convenience init(style: UITableViewCellStyle, reuseIdentifier: String?, pickerStyle: TBRPPickerStyle, language: TBRPLanguage) {
         self.init()
 
-        pickerView = UIPickerView.init(frame: CGRectMake(0, 0, TBRPScreenWidth, TBRPPickerHeight))
+		pickerView = UIPickerView.init(frame: CGRect(x: 0, y: 0, width: TBRPScreenWidth, height: TBRPPickerHeight))
         pickerView!.dataSource = self
         pickerView!.delegate = self
         
@@ -100,22 +100,22 @@ class TBRPPickerViewCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewD
         let bottomSeparator = CALayer()
         bottomSeparator.name = TBRPBottomSeparatorIdentifier
         
-        bottomSeparator.frame = CGRectMake(leftX, TBRPPickerHeight - TBRPSeparatorLineWidth, TBRPScreenWidth - leftX, TBRPSeparatorLineWidth)
+		bottomSeparator.frame = CGRect(x: leftX, y: TBRPPickerHeight - TBRPSeparatorLineWidth, width: TBRPScreenWidth - leftX, height: TBRPSeparatorLineWidth)
         bottomSeparator.backgroundColor = TBRPHelper.separatorColor()
         
         layer.addSublayer(bottomSeparator)
     }
     
     func addDefaultBottomSeparator() {
-        addBottomSeparatorFromLeftX(TBRPHelper.leadingMargin())
+		addBottomSeparatorFromLeftX(leftX: TBRPHelper.leadingMargin())
     }
     
     func addSectionBottomSeparator() {
-        addBottomSeparatorFromLeftX(0)
+		addBottomSeparatorFromLeftX(leftX: 0)
     }
     
     // MARK: - UIPickerView data source
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         if pickerStyle == .Frequency {
             return 1
         } else {
@@ -123,7 +123,7 @@ class TBRPPickerViewCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewD
         }
     }
     
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+	func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         if pickerStyle == .Frequency {
             return 4
         } else if pickerStyle == .Interval {
@@ -134,45 +134,45 @@ class TBRPPickerViewCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewD
             }
         } else if pickerStyle == .Week {
             if component == 0 {
-                return TBRPHelper.numbersInWeekPicker(language).count
+				return TBRPHelper.numbersInWeekPicker(language: language).count
             } else {
-                return TBRPHelper.daysInWeekPicker(language).count
+				return TBRPHelper.daysInWeekPicker(language: language).count
             }
         }
         return 0
     }
     
-    func pickerView(pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+	func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
         return TBRPPickerRowHeight
     }
     
-    func pickerView(pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+	func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         return TBRPScreenWidth / 2
     }
     
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+	func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
         if pickerStyle == .Frequency {
-            return TBRPHelper.frequencies(language)[row]
+			return TBRPHelper.frequencies(language: language)[row]
         } else if pickerStyle == .Interval {
             if component == 0 {
                 return "\(row + 1)"
             } else {
-                return unit?.lowercaseString
+				return unit?.lowercased()
             }
         } else if pickerStyle == .Week {
             if component == 0 {
-                return TBRPHelper.numbersInWeekPicker(language)[row]
+				return TBRPHelper.numbersInWeekPicker(language: language)[row]
             } else {
-                return TBRPHelper.daysInWeekPicker(language)[row]
+				return TBRPHelper.daysInWeekPicker(language: language)[row]
             }
         }
         return nil
     }
     
     // MARK: - UIPickerView delegate
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+	func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if let _ = delegate {
-            delegate!.pickerDidPick(pickerView, pickStyle: pickerStyle!, didSelectRow: row, inComponent: component)
+			delegate!.pickerDidPick(pickerView: pickerView, pickStyle: pickerStyle!, didSelectRow: row, inComponent: component)
         }
     }
 }
